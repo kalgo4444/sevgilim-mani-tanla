@@ -119,7 +119,7 @@ export function EscapeButton({
   };
 
   const shape =
-    "inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-full border px-6 py-3 font-medium";
+    "inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-full border px-8 py-3.5 text-base font-medium";
 
   return (
     // The slot keeps the first label's size, so a longer teaser never
@@ -141,7 +141,7 @@ export function EscapeButton({
         onPointerDown={handlePointerDown}
         onClick={handleClick}
         onFocus={handleFocus}
-        className={`${shape} absolute top-0 left-0 z-30 touch-none select-none border-rose-soft/70 bg-white/70 text-ink shadow-petal-sm backdrop-blur-md will-change-transform`}
+        className={`${shape} absolute top-0 left-0 z-30 touch-none select-none border-rose-soft/60 bg-white/75 text-ink shadow-petal-sm backdrop-blur-md transition-colors hover:bg-white/90 will-change-transform`}
       >
         {text}
       </motion.button>

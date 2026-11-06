@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useAnimate, useReducedMotion } from "framer-motion";
-import { MailOpen } from "lucide-react";
+import { MailOpen, Sparkles } from "lucide-react";
 import { useRef } from "react";
 import { invitationConfig } from "@/shared/config";
 import { HeartShape } from "@/shared/ui";
@@ -74,19 +74,30 @@ export function Envelope({ onOpened }: EnvelopeProps) {
   };
 
   return (
-    <div ref={scope} className="flex w-full flex-col items-center gap-10">
-      <p
-        data-chrome
-        className="max-w-[18ch] text-balance text-center font-display text-[1.75rem] italic leading-snug text-ink sm:text-[2.1rem]"
-      >
-        {envelope.teaser}
-      </p>
+    <div
+      ref={scope}
+      className="flex w-full flex-col items-center gap-8 sm:gap-10"
+    >
+      <div data-chrome className="flex flex-col items-center gap-3">
+        {envelope.badge && (
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-soft/40 bg-white/75 px-4 py-1 text-xs font-medium tracking-wide text-rose-deep shadow-petal-sm backdrop-blur-md">
+            <Sparkles
+              className="size-3.5 text-rose animate-pulse"
+              aria-hidden="true"
+            />
+            {envelope.badge}
+          </span>
+        )}
+        <p className="max-w-[20ch] text-balance text-center font-display text-[1.85rem] italic leading-snug text-ink sm:text-[2.25rem]">
+          {envelope.teaser}
+        </p>
+      </div>
 
       <button
         type="button"
         onClick={open}
         aria-label={envelope.openLabel}
-        className="group relative block aspect-[10/7] w-[min(86vw,23rem)] cursor-pointer rounded-2xl"
+        className="group relative block aspect-[10/7] w-[min(88vw,23.5rem)] cursor-pointer rounded-2xl transition-transform duration-300 hover:scale-[1.01]"
         style={{ perspective: 1100 }}
       >
         {/* Inside of the envelope */}
@@ -100,9 +111,9 @@ export function Envelope({ onOpened }: EnvelopeProps) {
         <span
           data-letter
           aria-hidden="true"
-          className="absolute inset-x-[7%] top-[7%] bottom-[5%] z-10 flex flex-col items-center justify-start gap-2 rounded-xl bg-paper px-4 pt-[9%] shadow-petal-sm"
+          className="absolute inset-x-[7%] top-[7%] bottom-[5%] z-10 flex flex-col items-center justify-start gap-2 rounded-xl border border-blush-100 bg-paper px-4 pt-[9%] shadow-petal-sm"
         >
-          <HeartShape className="size-6 text-rose" />
+          <HeartShape className="size-6 text-rose drop-shadow-xs" />
           <span className="font-display text-lg italic text-ink">
             {envelope.letterHint}
           </span>
@@ -145,7 +156,7 @@ export function Envelope({ onOpened }: EnvelopeProps) {
           className="absolute top-[56%] left-1/2 z-40 -mt-8 -ml-8 block size-16"
         >
           <motion.span
-            className="wax-seal flex size-full items-center justify-center rounded-full"
+            className="wax-seal relative flex size-full items-center justify-center rounded-full"
             animate={reduceMotion ? undefined : { scale: [1, 1.1, 1, 1.06, 1] }}
             transition={{
               duration: 1.2,
@@ -154,7 +165,8 @@ export function Envelope({ onOpened }: EnvelopeProps) {
               repeatDelay: 0.8,
             }}
           >
-            <HeartShape className="size-7 text-cream/85" />
+            <span className="pointer-events-none absolute inset-1.5 rounded-full border border-white/25 border-dashed" />
+            <HeartShape className="size-7 text-cream/90 drop-shadow-xs" />
           </motion.span>
         </span>
       </button>
@@ -165,7 +177,7 @@ export function Envelope({ onOpened }: EnvelopeProps) {
         onClick={open}
         whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.96 }}
-        className="inline-flex min-h-12 items-center gap-2.5 rounded-full border border-rose-soft/70 bg-white/65 px-6 py-3 font-medium text-ink shadow-petal-sm backdrop-blur-md"
+        className="inline-flex min-h-12 items-center gap-2.5 rounded-full border border-rose-soft/70 bg-white/75 px-7 py-3 text-[0.98rem] font-medium text-ink shadow-petal-sm backdrop-blur-md transition-all hover:bg-white hover:shadow-petal"
       >
         <MailOpen className="size-[1.15rem] text-rose" aria-hidden="true" />
         {envelope.openLabel}

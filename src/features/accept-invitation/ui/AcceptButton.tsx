@@ -10,7 +10,7 @@ interface AcceptButtonProps {
   className?: string;
 }
 
-/** The "Yes" button: always clickable, with a soft idle heartbeat. */
+/** The "Yes" button: always clickable, with a soft idle heartbeat and subtle glow. */
 export function AcceptButton({
   label,
   onAccept,
@@ -30,9 +30,9 @@ export function AcceptButton({
         repeat: Number.POSITIVE_INFINITY,
         repeatDelay: 0.9,
       }}
-      whileHover={{ scale: 1.08 }}
-      whileTap={{ scale: 0.94 }}
-      className={`relative z-20 inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-full bg-rose px-7 py-3 font-semibold text-cream shadow-petal-rose ${className}`}
+      whileHover={{ scale: 1.07 }}
+      whileTap={{ scale: 0.95 }}
+      className={`relative z-20 inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-full bg-gradient-to-r from-rose to-rose-deep px-8 py-3.5 text-base font-semibold text-cream shadow-petal-rose transition-shadow hover:shadow-[0_16px_36px_-10px_rgba(198,58,104,0.65)] ${className}`}
     >
       {label}
     </motion.button>

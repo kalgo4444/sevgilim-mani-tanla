@@ -8,6 +8,7 @@ export interface EnvelopeConfig {
   teaser: string;
   openLabel: string;
   letterHint: string;
+  badge?: string;
 }
 
 export interface InvitationTextConfig {
@@ -32,6 +33,7 @@ export interface PlannerErrorsConfig {
 }
 
 export interface PlannerConfig {
+  badge?: string;
   title: string;
   subtitle: string;
   locationLabel: string;
@@ -55,6 +57,7 @@ export interface PlannerConfig {
 }
 
 export interface CelebrationConfig {
+  statusBadge?: string;
   title: string;
   subtitle: string;
   closing: string;
@@ -90,6 +93,7 @@ export interface InvitationConfig {
 export const invitationConfig: InvitationConfig = {
   girlName: "Madina",
   envelope: {
+    badge: "Maxsus taklifnoma ✨",
     teaser: "Senga kichik bir xabarim bor...",
     openLabel: "Xatni ochish",
     letterHint: "Faqat sen uchun",
@@ -113,6 +117,7 @@ export const invitationConfig: InvitationConfig = {
     ],
   },
   planner: {
+    badge: "Uchrashuv rejasi 🌷",
     title: "Qayerga va qachon boramiz? 🌷",
     subtitle: "Hammasini sen tanlaysan, men esa tayyorlab qo‘yaman.",
     locationLabel: "Joy",
@@ -148,6 +153,7 @@ export const invitationConfig: InvitationConfig = {
     },
   },
   celebration: {
+    statusBadge: "Reja qabul qilindi ✨",
     title: "Yeeee! ❤️ Bilardim, rozi bo‘lasan!",
     subtitle: "Unda bizni chiroyli uchrashuv kutmoqda!",
     closing: "Bu kunni esda qolarli qilamiz! 🌷",

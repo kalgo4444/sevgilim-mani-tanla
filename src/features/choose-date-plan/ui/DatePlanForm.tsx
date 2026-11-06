@@ -1,7 +1,15 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { CalendarHeart, Clock, Loader2, MapPin, PenLine } from "lucide-react";
+import {
+  CalendarHeart,
+  Check,
+  Clock,
+  Loader2,
+  MapPin,
+  PenLine,
+  Sparkles,
+} from "lucide-react";
 import { type FormEvent, type ReactNode, useId, useState } from "react";
 import {
   CUSTOM_LOCATION_ID,
@@ -9,7 +17,6 @@ import {
   type DatePlan,
 } from "@/entities/date-plan";
 import type { PlannerConfig } from "@/shared/config";
-import { HeartShape } from "@/shared/ui";
 import { useDatePlanForm } from "../model/useDatePlanForm";
 
 interface DatePlanFormProps {
@@ -19,7 +26,7 @@ interface DatePlanFormProps {
 }
 
 const fieldClass =
-  "w-full rounded-2xl border border-white/80 bg-white/65 px-4 py-3 text-base text-ink shadow-inner shadow-blush-100/60 outline-none transition-[border-color,box-shadow] placeholder:text-ink-soft/60 focus:border-rose-soft focus:ring-4 focus:ring-rose-soft/35";
+  "w-full rounded-2xl border border-white/80 bg-white/70 px-4 py-3 text-base text-ink shadow-inner shadow-blush-100/60 outline-none transition-[border-color,box-shadow,background-color] placeholder:text-ink-soft/60 focus:border-rose-soft focus:bg-white focus:ring-4 focus:ring-rose-soft/30";
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   return (
@@ -30,7 +37,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
-          className="mt-2 text-sm text-rose-deep"
+          className="mt-2 text-sm font-medium text-rose-deep"
         >
           {message}
         </motion.p>
@@ -47,11 +54,16 @@ function SectionTitle({
   children: ReactNode;
 }) {
   return (
-    <span className="mb-3 flex items-center gap-2 font-medium text-ink">
-      <span className="text-rose" aria-hidden="true">
+    <span className="mb-3 flex items-center gap-2.5 font-medium text-ink">
+      <span
+        className="flex size-7 sm:size-8 items-center justify-center rounded-xl border border-rose-soft/30 bg-blush-100/80 text-rose shadow-xs"
+        aria-hidden="true"
+      >
         {icon}
       </span>
-      {children}
+      <span className="font-semibold tracking-tight text-ink text-sm sm:text-base">
+        {children}
+      </span>
     </span>
   );
 }
@@ -87,12 +99,17 @@ function ChoiceCard({
         whileTap={{ scale: 0.96 }}
         animate={{ scale: checked ? 1.02 : 1 }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
-        className="flex h-full min-h-[5.5rem] flex-col items-start justify-between gap-2 rounded-[1.25rem] border border-white/80 bg-white/50 p-3.5 text-left transition-colors group-hover:bg-white/75 peer-checked:border-rose-soft peer-checked:bg-blush-50 peer-focus-visible:ring-4 peer-focus-visible:ring-rose-soft/45"
+        className="relative flex h-full min-h-[5.5rem] flex-col items-start justify-between gap-2 rounded-2xl border border-white/85 bg-white/55 p-3.5 text-left shadow-xs backdrop-blur-md transition-all group-hover:bg-white/80 group-hover:border-rose-soft/40 peer-checked:border-rose/50 peer-checked:bg-gradient-to-br peer-checked:from-blush-50 peer-checked:to-white peer-checked:shadow-petal-sm peer-focus-visible:ring-4 peer-focus-visible:ring-rose-soft/45"
       >
-        <span className="text-2xl leading-none" aria-hidden="true">
+        <span
+          className="flex size-9 sm:size-10 items-center justify-center rounded-xl bg-blush-100/70 text-2xl leading-none transition-transform group-hover:scale-105"
+          aria-hidden="true"
+        >
           {emoji}
         </span>
-        <span className="text-[0.95rem] leading-snug text-ink">{label}</span>
+        <span className="text-[0.92rem] font-medium leading-snug text-ink sm:text-[0.95rem]">
+          {label}
+        </span>
       </motion.span>
       <AnimatePresence>
         {checked && (
@@ -102,9 +119,9 @@ function ChoiceCard({
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             transition={{ type: "spring", stiffness: 600, damping: 22 }}
-            className="absolute top-2.5 right-2.5 size-4 text-rose"
+            className="absolute top-2.5 right-2.5 flex size-5 items-center justify-center rounded-full bg-rose text-cream shadow-xs"
           >
-            <HeartShape className="block size-full" />
+            <Check className="size-3 stroke-[3]" />
           </motion.span>
         )}
       </AnimatePresence>
@@ -185,28 +202,38 @@ export function DatePlanForm({ config, onSubmit }: DatePlanFormProps) {
             >
               <label
                 htmlFor={ids.custom}
-                className="mb-1.5 flex items-center gap-1.5 text-sm text-ink-soft"
+                className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-ink-soft"
               >
                 <PenLine className="size-3.5" aria-hidden="true" />
                 {config.customLocationInputLabel}
               </label>
-              <input
-                id={ids.custom}
-                type="text"
-                // biome-ignore lint/a11y/noAutofocus: she just chose to type her own place.
-                autoFocus
-                autoComplete="off"
-                maxLength={DATE_PLAN_LIMITS.customLocation}
-                value={values.customLocation}
-                placeholder={config.customLocationPlaceholder}
-                onChange={(event) => form.setCustomLocation(event.target.value)}
-                onBlur={form.markCustomTouched}
-                aria-invalid={Boolean(errors.location)}
-                aria-describedby={
-                  errors.location ? ids.locationError : undefined
-                }
-                className={fieldClass}
-              />
+              <div className="relative">
+                <span
+                  className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-rose"
+                  aria-hidden="true"
+                >
+                  <PenLine className="size-4" />
+                </span>
+                <input
+                  id={ids.custom}
+                  type="text"
+                  // biome-ignore lint/a11y/noAutofocus: she just chose to type her own place.
+                  autoFocus
+                  autoComplete="off"
+                  maxLength={DATE_PLAN_LIMITS.customLocation}
+                  value={values.customLocation}
+                  placeholder={config.customLocationPlaceholder}
+                  onChange={(event) =>
+                    form.setCustomLocation(event.target.value)
+                  }
+                  onBlur={form.markCustomTouched}
+                  aria-invalid={Boolean(errors.location)}
+                  aria-describedby={
+                    errors.location ? ids.locationError : undefined
+                  }
+                  className={`${fieldClass} pl-10`}
+                />
+              </div>
               <FieldError id={ids.locationError} message={errors.location} />
             </motion.div>
           )}
@@ -220,17 +247,25 @@ export function DatePlanForm({ config, onSubmit }: DatePlanFormProps) {
               {config.dateLabel}
             </SectionTitle>
           </label>
-          <input
-            id={ids.date}
-            type="date"
-            required
-            min={form.today}
-            value={values.date}
-            onChange={(event) => form.setDate(event.target.value)}
-            aria-invalid={Boolean(errors.date)}
-            aria-describedby={errors.date ? ids.dateError : undefined}
-            className={`${fieldClass} date-field`}
-          />
+          <div className="relative">
+            <span
+              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-rose"
+              aria-hidden="true"
+            >
+              <CalendarHeart className="size-4" />
+            </span>
+            <input
+              id={ids.date}
+              type="date"
+              required
+              min={form.today}
+              value={values.date}
+              onChange={(event) => form.setDate(event.target.value)}
+              aria-invalid={Boolean(errors.date)}
+              aria-describedby={errors.date ? ids.dateError : undefined}
+              className={`${fieldClass} date-field pl-10 font-medium`}
+            />
+          </div>
           <FieldError id={ids.dateError} message={errors.date} />
         </div>
 
@@ -240,7 +275,7 @@ export function DatePlanForm({ config, onSubmit }: DatePlanFormProps) {
               {config.timeLabel}
             </SectionTitle>
           </legend>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 sm:gap-2.5">
             {config.timeSlots.map((slot) => {
               const checked = values.time === slot;
               return (
@@ -255,32 +290,44 @@ export function DatePlanForm({ config, onSubmit }: DatePlanFormProps) {
                   />
                   <motion.span
                     whileTap={{ scale: 0.94 }}
-                    className="inline-flex min-h-10 items-center rounded-full border border-white/80 bg-white/55 px-3.5 text-sm text-ink tabular-nums transition-colors hover:bg-white/80 peer-checked:border-rose peer-checked:bg-rose peer-checked:text-cream peer-focus-visible:ring-4 peer-focus-visible:ring-rose-soft/45"
+                    className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-white/80 bg-white/60 px-4 py-1.5 text-sm font-medium text-ink tabular-nums shadow-xs backdrop-blur-md transition-all hover:bg-white hover:border-rose-soft/50 peer-checked:border-rose peer-checked:bg-gradient-to-r peer-checked:from-rose peer-checked:to-rose-deep peer-checked:text-cream peer-checked:shadow-petal-rose peer-focus-visible:ring-4 peer-focus-visible:ring-rose-soft/45"
                   >
+                    <Clock
+                      className="size-3.5 opacity-60 peer-checked:opacity-100"
+                      aria-hidden="true"
+                    />
                     {slot}
                   </motion.span>
                 </label>
               );
             })}
           </div>
-          <div className="mt-3 flex items-center gap-3">
+          <div className="mt-3.5 flex flex-wrap items-center gap-2.5">
             <label
               htmlFor={ids.customTime}
-              className="shrink-0 text-sm text-ink-soft"
+              className="shrink-0 text-sm font-medium text-ink-soft"
             >
-              {config.customTimeLabel}
+              {config.customTimeLabel}:
             </label>
-            <input
-              id={ids.customTime}
-              type="time"
-              required
-              step={300}
-              value={values.time}
-              onChange={(event) => form.setTime(event.target.value)}
-              aria-invalid={Boolean(errors.time)}
-              aria-describedby={errors.time ? ids.timeError : undefined}
-              className={`${fieldClass} date-field max-w-[9rem] py-2 tabular-nums`}
-            />
+            <div className="relative">
+              <span
+                className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-rose"
+                aria-hidden="true"
+              >
+                <Clock className="size-3.5" />
+              </span>
+              <input
+                id={ids.customTime}
+                type="time"
+                required
+                step={300}
+                value={values.time}
+                onChange={(event) => form.setTime(event.target.value)}
+                aria-invalid={Boolean(errors.time)}
+                aria-describedby={errors.time ? ids.timeError : undefined}
+                className={`${fieldClass} date-field max-w-[9.5rem] py-2 pl-9 pr-3 text-sm font-medium tabular-nums`}
+              />
+            </div>
           </div>
           <FieldError id={ids.timeError} message={errors.time} />
         </fieldset>
@@ -292,21 +339,23 @@ export function DatePlanForm({ config, onSubmit }: DatePlanFormProps) {
             {config.noteLabel}
           </SectionTitle>
         </label>
-        <textarea
-          id={ids.note}
-          rows={3}
-          maxLength={DATE_PLAN_LIMITS.note}
-          value={values.note}
-          placeholder={config.notePlaceholder}
-          onChange={(event) => form.setNote(event.target.value)}
-          className={`${fieldClass} resize-none leading-relaxed`}
-        />
-        <p
-          className="mt-1 text-right text-xs text-ink-soft/80 tabular-nums"
-          aria-hidden="true"
-        >
-          {values.note.length}/{DATE_PLAN_LIMITS.note}
-        </p>
+        <div className="relative">
+          <textarea
+            id={ids.note}
+            rows={3}
+            maxLength={DATE_PLAN_LIMITS.note}
+            value={values.note}
+            placeholder={config.notePlaceholder}
+            onChange={(event) => form.setNote(event.target.value)}
+            className={`${fieldClass} resize-none leading-relaxed pb-8`}
+          />
+          <div
+            className="pointer-events-none absolute right-3 bottom-2.5 rounded-full border border-white/60 bg-blush-100/80 px-2.5 py-0.5 text-[0.7rem] font-semibold text-ink-soft/90 tabular-nums shadow-xs"
+            aria-hidden="true"
+          >
+            {values.note.length}/{DATE_PLAN_LIMITS.note}
+          </div>
+        </div>
       </div>
 
       <div>
@@ -316,17 +365,19 @@ export function DatePlanForm({ config, onSubmit }: DatePlanFormProps) {
           aria-describedby={!form.isValid ? ids.hint : undefined}
           whileHover={canSubmit ? { scale: 1.02 } : undefined}
           whileTap={canSubmit ? { scale: 0.97 } : undefined}
-          className="flex min-h-13 w-full items-center justify-center gap-2 rounded-full bg-rose px-6 py-3.5 text-[1.05rem] font-semibold text-cream shadow-petal-rose transition-[background-color,box-shadow,opacity] disabled:cursor-not-allowed disabled:bg-rose-soft disabled:shadow-none"
+          className="flex min-h-13 w-full items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-rose to-rose-deep px-6 py-3.5 text-[1.05rem] font-semibold text-cream shadow-petal-rose transition-all hover:shadow-[0_16px_36px_-10px_rgba(198,58,104,0.6)] disabled:cursor-not-allowed disabled:bg-none disabled:bg-rose-soft/70 disabled:text-cream/70 disabled:shadow-none"
         >
-          {sending && (
+          {sending ? (
             <Loader2 className="size-5 animate-spin" aria-hidden="true" />
+          ) : (
+            <Sparkles className="size-5" aria-hidden="true" />
           )}
           {sending ? config.sendingLabel : config.submitLabel}
         </motion.button>
         <p
           id={ids.hint}
           aria-live="polite"
-          className="mt-2.5 min-h-5 text-center text-sm text-ink-soft"
+          className="mt-2.5 min-h-5 text-center text-sm font-medium text-ink-soft"
         >
           {!form.isValid && !errors.location && !errors.date && !errors.time
             ? form.firstError
