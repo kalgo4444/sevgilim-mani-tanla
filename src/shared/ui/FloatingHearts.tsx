@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-import { useState } from "react";
+import { type CSSProperties, useState } from "react";
 import { randomBetween } from "@/shared/lib";
 import { useIsClient } from "@/shared/lib/useIsClient";
 import { HeartShape } from "./HeartShape";
@@ -19,7 +18,7 @@ interface FloatingHeart {
 }
 
 function makeHearts(): FloatingHeart[] {
-  const count = window.innerWidth < 640 ? 7 : 14;
+  const count = window.innerWidth < 640 ? 6 : 12;
   return Array.from({ length: count }, (_, id) => ({
     id,
     left: randomBetween(2, 96),
@@ -34,53 +33,29 @@ function makeHearts(): FloatingHeart[] {
 }
 
 function HeartsLayer() {
-  const reduceMotion = useReducedMotion();
   const [hearts] = useState(makeHearts);
 
-  if (reduceMotion) {
-    return hearts.slice(0, 6).map((heart) => (
-      <span
-        key={heart.id}
-        className="absolute text-rose-soft"
-        style={{
+  // With reduced motion the hearts stop: a few stay put, dimmer, at fixed heights.
+  return hearts.map((heart) => (
+    <span
+      key={heart.id}
+      className={`floating-heart absolute top-full text-rose-soft motion-reduce:top-(--heart-top) motion-reduce:animate-none motion-reduce:opacity-(--heart-still) ${heart.id >= 6 ? "motion-reduce:hidden" : ""}`}
+      style={
+        {
           left: `${heart.left}%`,
-          top: `${heart.top}%`,
           width: heart.size,
           height: heart.size,
-          opacity: heart.opacity * 0.6,
-        }}
-      >
-        <HeartShape filled={heart.filled} className="block size-full" />
-      </span>
-    ));
-  }
-
-  return hearts.map((heart) => (
-    <motion.span
-      key={heart.id}
-      className="absolute top-full text-rose-soft will-change-transform"
-      style={{ left: `${heart.left}%`, width: heart.size, height: heart.size }}
-      initial={{ y: 0, x: 0, opacity: 0 }}
-      animate={{
-        y: "-115vh",
-        x: [0, heart.sway, -heart.sway, 0],
-        opacity: [0, heart.opacity, heart.opacity, 0],
-      }}
-      transition={{
-        duration: heart.duration,
-        delay: heart.delay,
-        repeat: Number.POSITIVE_INFINITY,
-        ease: "linear",
-        x: {
-          duration: heart.duration,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-          delay: heart.delay,
-        },
-      }}
+          "--heart-opacity": heart.opacity,
+          "--heart-still": heart.opacity * 0.6,
+          "--heart-top": `${heart.top}%`,
+          "--heart-sway": `${heart.sway}px`,
+          "--heart-duration": `${heart.duration}s`,
+          "--heart-delay": `${heart.delay}s`,
+        } as CSSProperties
+      }
     >
       <HeartShape filled={heart.filled} className="block size-full" />
-    </motion.span>
+    </span>
   ));
 }
 

@@ -38,6 +38,22 @@
   body {
     min-height: 100dvh;
     background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /*
+   * The backdrop lives on its own fixed layer. background-attachment: fixed
+   * repaints on every scroll frame and iOS Safari ignores it.
+   */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
     background-image:
       radial-gradient(
         75rem 50rem at 50% -12%,
@@ -53,17 +69,7 @@
         45rem 38rem at 0% 70%,
         rgb(255 240 243 / 0.95),
         transparent 70%
-      ),
-      radial-gradient(
-        35rem 30rem at 50% 50%,
-        rgb(255 253 248 / 0.7),
-        transparent 80%
       );
-    background-attachment: fixed;
-    color: var(--color-ink);
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
   }
 
   ::selection {
@@ -78,7 +84,45 @@
 
   button:not(:disabled) {
     cursor: pointer;
+    touch-action: manipulation;
   }
+}
+
+/* Hearts drift up on the compositor (translate + opacity), sway sideways. */
+@keyframes heart-rise {
+  0% {
+    translate: 0 0;
+    opacity: 0;
+  }
+  15% {
+    opacity: var(--heart-opacity);
+  }
+  85% {
+    opacity: var(--heart-opacity);
+  }
+  100% {
+    translate: 0 -120vh;
+    opacity: 0;
+  }
+}
+
+@keyframes heart-sway {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  33% {
+    transform: translateX(var(--heart-sway));
+  }
+  66% {
+    transform: translateX(calc(var(--heart-sway) * -1));
+  }
+}
+
+.floating-heart {
+  animation:
+    heart-rise var(--heart-duration) var(--heart-delay) linear infinite both,
+    heart-sway var(--heart-duration) var(--heart-delay) ease-in-out infinite;
 }
 
 /* Envelope paper, built from clip-path shapes Tailwind cannot express cleanly. */

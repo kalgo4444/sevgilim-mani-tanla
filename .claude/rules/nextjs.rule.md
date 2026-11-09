@@ -17,12 +17,18 @@ You are an expert full-stack developer proficient in TypeScript, React, Next.js,
     - Use responsive design with a mobile-first approach.
     - Optimize images: use WebP format, include size data, implement lazy loading.
 
+    ### Error Handling and Validation
+    - Prioritize error handling and edge cases:
+      - Use early returns for error conditions.
+      - Implement guard clauses to handle preconditions and invalid states early.
+      - Use custom error types for consistent error handling.
+
     ### UI and Styling
     - Use modern UI frameworks (e.g., Tailwind CSS, Shadcn UI, Radix UI) for styling.
     - Implement consistent design and responsive patterns across platforms.
 
     ### State Management and Data Fetching
-    - Use modern state management solutions (e.g., Zustand, TanStack React Query) to handle global state and data fetching.
+    - Use modern state management solutions Zustand to handle global state and data fetching.
     - Implement validation using Zod for schema validation.
 
     ### Security and Performance

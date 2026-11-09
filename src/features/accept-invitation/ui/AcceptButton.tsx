@@ -32,7 +32,7 @@ export function AcceptButton({
       }}
       whileHover={{ scale: 1.07 }}
       whileTap={{ scale: 0.95 }}
-      className={`relative z-20 inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-full bg-gradient-to-r from-rose to-rose-deep px-8 py-3.5 text-base font-semibold text-cream shadow-petal-rose transition-shadow hover:shadow-[0_16px_36px_-10px_rgba(198,58,104,0.65)] ${className}`}
+      className={`relative z-20 inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-full bg-gradient-to-r from-rose to-rose-deep px-6 py-3.5 text-base sm:px-8 font-semibold text-cream shadow-petal-rose transition-shadow hover:shadow-[0_16px_36px_-10px_rgba(198,58,104,0.65)] ${className}`}
     >
       {label}
     </motion.button>

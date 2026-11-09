@@ -22,7 +22,7 @@ export function InvitationCard({ onAccept, onNoAttempt }: InvitationCardProps) {
     <GlassCard
       as="section"
       aria-labelledby="invitation-heading"
-      className="w-full max-w-[34rem] px-6 pt-12 pb-10 text-center sm:px-12 sm:pt-14 sm:pb-12"
+      className="w-full max-w-[34rem] px-5 pt-12 pb-9 text-center min-[400px]:px-6 sm:px-12 sm:pt-14 sm:pb-12"
     >
       <div
         aria-hidden="true"
@@ -41,7 +41,7 @@ export function InvitationCard({ onAccept, onNoAttempt }: InvitationCardProps) {
       >
         {invitation.question}
       </p>
-      <div className="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-5">
+      <div className="mt-9 flex flex-wrap items-center justify-center gap-3 sm:mt-10 sm:gap-5">
         <AcceptButton ref={yesRef} label={buttons.yes} onAccept={onAccept} />
         <EscapeButton
           label={buttons.no}

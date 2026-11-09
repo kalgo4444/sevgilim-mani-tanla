@@ -109,13 +109,8 @@ function ConfettiLayer() {
   });
 }
 
-interface ConfettiProps {
-  /** Change the key to fire a new burst. */
-  burstKey?: number;
-}
-
 /** One burst of falling confetti and rising hearts. Pieces leave the DOM when done. */
-export function Confetti({ burstKey = 0 }: ConfettiProps) {
+export function Confetti() {
   const isClient = useIsClient();
   const reduceMotion = useReducedMotion();
   return (
@@ -123,7 +118,7 @@ export function Confetti({ burstKey = 0 }: ConfettiProps) {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-20 overflow-hidden"
     >
-      {isClient && !reduceMotion && <ConfettiLayer key={burstKey} />}
+      {isClient && !reduceMotion && <ConfettiLayer />}
     </div>
   );
 }

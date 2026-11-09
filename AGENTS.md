@@ -1,7 +1,5 @@
 # AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## What this is
 
 A romantic date-invitation website, with all visible text in Uzbek (Latin script). The flow has four screens: envelope → invitation (a "Yes" button and a "No" button that runs away) → date planner (place, date, time) → celebration. The owner gets reports through a Telegram bot. There is no database and no backend. The only server code is one Route Handler that forwards reports to Telegram.
@@ -27,9 +25,9 @@ To run the site without sending real Telegram messages, blank the keys for that 
 
 ## Stack specifics
 
-- Next.js 16 (App Router), React 19, TypeScript strict (no `any`), React Compiler on (`reactCompiler: true`).
+- Next.js 16 (App Router), React 19, TypeScript strict (no `any`), React Compiler on (`reactCompiler: true`). Next 16 differs from older versions: check `node_modules/next/dist/docs/` before relying on remembered APIs.
 - Tailwind v4 loads through the `@tailwindcss/turbopack` loader in `next.config.ts` (not PostCSS). Config is CSS-first: color/shadow tokens in `@theme` and font tokens in `@theme inline` in `app/globals.css`. Do not add a `tailwind.config.js`. Envelope `clip-path` shapes and date-picker styling are the only custom CSS.
-- Runtime dependencies are `framer-motion`, `lucide-react` and `server-only`. **Add nothing else.** No UI kits, state managers, Zod, confetti libraries, UA parsers or Telegram SDKs. Type guards and the UA parser are hand-written, and Telegram is called with `fetch`. This overrides the generic advice in `.claude/skills/nextjs.md`, which suggests Zustand, Zod and Shadcn.
+- Runtime dependencies are `framer-motion`, `lucide-react` and `server-only`. **Add nothing else.** No UI kits, state managers, Zod, confetti libraries, UA parsers or Telegram SDKs. Type guards and the UA parser are hand-written, and Telegram is called with `fetch`. This overrides the generic advice in `.claude/rules/nextjs.rule.md`, which suggests Zustand, Zod and Shadcn.
 - lucide-react is v1: `Loader2` still works as an alias of `LoaderCircle`.
 - `app/layout.tsx` types `children` as `Readonly<{ children: ReactNode }>` rather than the generated `LayoutProps`, so `bunx tsc --noEmit` passes on a clean checkout before Next has generated its types.
 
@@ -69,7 +67,7 @@ The opening is one `useAnimate` sequence that targets `data-*` attributes inside
 
 ## Cross-cutting rules
 
-- **Secrets:** `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` are server-only. Never use the `NEXT_PUBLIC_` prefix, never log them, and never return them or Telegram's error body to the client. The spec wants real values in `.env.local`. A `.env` with real values also exists. Don't print either file.
+- **Secrets:** `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` are server-only. Never use the `NEXT_PUBLIC_` prefix, never log them, and never return them or Telegram's error body to the client. Real values go in `.env.local`; a `.env` with real values also exists. `.claude/settings.json` denies `Read(.env*)`, so don't try to print either file.
 - **Privacy:** collect only what spec §7.1 lists. No geolocation, cookies, fingerprinting, analytics or third-party IP lookups.
 - **Hydration:** use `window`, `navigator`, `sessionStorage`, `crypto` and random values only after mount. Randomized decoration (`FloatingHearts`, `Confetti`) renders an inner layer only when `useIsClient()` is true, and generates its particles in a lazy `useState` initializer. `createId()` falls back from `crypto.randomUUID` because that API is missing on plain-http LAN URLs (phone testing).
 - **Motion:** animate `transform` and `opacity` only. Respect reduced motion via `MotionProvider` plus `useReducedMotion()` branches (envelope, escape button, hearts, confetti). In dev, Framer Motion logs its own "Reduced Motion enabled" warning when reduced motion is on. It is expected and absent in production.

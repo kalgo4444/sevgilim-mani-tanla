@@ -14,7 +14,7 @@ import type { ReactNode } from "react";
 import type { DatePlan } from "@/entities/date-plan";
 import { invitationConfig } from "@/shared/config";
 import { formatPlanDate } from "@/shared/lib";
-import { Confetti, GlassCard } from "@/shared/ui";
+import { Confetti, GhostButton, GlassCard } from "@/shared/ui";
 
 interface CelebrationProps {
   plan: DatePlan;
@@ -78,7 +78,7 @@ export function Celebration({ plan, onReplay }: CelebrationProps) {
       >
         {celebration.statusBadge && (
           <motion.div variants={item} className="mb-4">
-            <span className="inline-flex items-center gap-2 rounded-full border border-rose-soft/40 bg-white/80 px-4 py-1.5 text-xs sm:text-sm font-semibold text-rose-deep shadow-petal-sm backdrop-blur-md">
+            <span className="inline-flex items-center gap-2 rounded-full border border-rose-soft/40 bg-white/80 px-4 py-1.5 text-xs font-semibold text-rose-deep shadow-petal-sm sm:text-sm">
               <Sparkles
                 className="size-3.5 text-rose animate-spin [animation-duration:3s]"
                 aria-hidden="true"
@@ -114,7 +114,7 @@ export function Celebration({ plan, onReplay }: CelebrationProps) {
                 </h2>
               </div>
               <span className="rounded-full border border-rose-soft/30 bg-blush-50 px-2.5 py-0.5 text-xs font-semibold text-rose">
-                Tayyor ❤️
+                {celebration.planBadge}
               </span>
             </div>
             <dl className="mt-2 divide-y divide-blush-100">
@@ -161,16 +161,12 @@ export function Celebration({ plan, onReplay }: CelebrationProps) {
         </motion.p>
 
         <motion.div variants={item} className="mt-8">
-          <motion.button
-            type="button"
+          <GhostButton
             onClick={onReplay}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
-            className="inline-flex min-h-12 items-center gap-2.5 rounded-full border border-rose-soft/70 bg-white/75 px-7 py-3 text-[0.98rem] font-medium text-ink shadow-petal-sm backdrop-blur-md transition-all hover:bg-white hover:shadow-petal"
+            icon={<RotateCcw className="size-4" />}
           >
-            <RotateCcw className="size-4 text-rose" aria-hidden="true" />
             {celebration.replayLabel}
-          </motion.button>
+          </GhostButton>
         </motion.div>
       </motion.div>
     </section>

@@ -18,16 +18,16 @@ interface StageFrameProps {
 function StageFrame({ children }: StageFrameProps) {
   return (
     <motion.div
-      className="relative z-10 flex min-h-dvh w-full items-center justify-center px-3.5 py-8 sm:px-6 sm:py-12 md:px-8 md:py-16 pb-[calc(2rem+env(safe-area-inset-bottom,0px))]"
-      initial={{ opacity: 0, scale: 0.95 }}
+      className="relative z-10 flex min-h-dvh w-full items-center justify-center px-4 pt-[max(2rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-12 md:px-8 md:py-16"
+      initial={{ opacity: 0, y: 14 }}
       animate={{
         opacity: 1,
-        scale: 1,
+        y: 0,
         transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
       }}
       exit={{
         opacity: 0,
-        scale: 1.02,
+        y: -8,
         transition: { duration: 0.3, ease: "easeIn" },
       }}
     >

@@ -17,12 +17,12 @@ export function DatePlanner({ onConfirm }: DatePlannerProps) {
     <GlassCard
       as="section"
       aria-labelledby="planner-heading"
-      className="w-full max-w-[44rem] px-5 py-7 sm:px-10 sm:py-10"
+      className="w-full max-w-[44rem] px-4 py-6 min-[400px]:px-5 sm:px-10 sm:py-10"
     >
       <header className="mb-7 sm:mb-8">
         {planner.badge && (
           <div className="mb-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-soft/40 bg-white/75 px-3.5 py-1 text-xs font-semibold text-rose-deep shadow-xs backdrop-blur-md">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-soft/40 bg-white/80 px-3.5 py-1 text-xs font-semibold text-rose-deep shadow-xs">
               <CalendarHeart
                 className="size-3.5 text-rose"
                 aria-hidden="true"
