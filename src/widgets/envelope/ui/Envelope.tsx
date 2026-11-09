@@ -4,7 +4,7 @@ import { motion, useAnimate, useReducedMotion } from "framer-motion";
 import { MailOpen, Sparkles } from "lucide-react";
 import { useRef } from "react";
 import { invitationConfig } from "@/shared/config";
-import { HeartShape } from "@/shared/ui";
+import { GhostButton, HeartShape } from "@/shared/ui";
 
 interface EnvelopeProps {
   /** Called once the opening animation has finished. */
@@ -80,7 +80,7 @@ export function Envelope({ onOpened }: EnvelopeProps) {
     >
       <div data-chrome className="flex flex-col items-center gap-3">
         {envelope.badge && (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-soft/40 bg-white/75 px-4 py-1 text-xs font-medium tracking-wide text-rose-deep shadow-petal-sm backdrop-blur-md">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-soft/40 bg-white/80 px-4 py-1 text-xs font-medium tracking-wide text-rose-deep shadow-petal-sm">
             <Sparkles
               className="size-3.5 text-rose animate-pulse"
               aria-hidden="true"
@@ -171,17 +171,13 @@ export function Envelope({ onOpened }: EnvelopeProps) {
         </span>
       </button>
 
-      <motion.button
+      <GhostButton
         data-chrome
-        type="button"
         onClick={open}
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.96 }}
-        className="inline-flex min-h-12 items-center gap-2.5 rounded-full border border-rose-soft/70 bg-white/75 px-7 py-3 text-[0.98rem] font-medium text-ink shadow-petal-sm backdrop-blur-md transition-all hover:bg-white hover:shadow-petal"
+        icon={<MailOpen className="size-[1.15rem]" />}
       >
-        <MailOpen className="size-[1.15rem] text-rose" aria-hidden="true" />
         {envelope.openLabel}
-      </motion.button>
+      </GhostButton>
     </div>
   );
 }

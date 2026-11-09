@@ -62,6 +62,7 @@ export interface CelebrationConfig {
   subtitle: string;
   closing: string;
   planTitle: string;
+  planBadge: string;
   placeLabel: string;
   dateLabel: string;
   timeLabel: string;
@@ -158,6 +159,7 @@ export const invitationConfig: InvitationConfig = {
     subtitle: "Unda bizni chiroyli uchrashuv kutmoqda!",
     closing: "Bu kunni esda qolarli qilamiz! 🌷",
     planTitle: "Bizning uchrashuv",
+    planBadge: "Tayyor ❤️",
     placeLabel: "Joy",
     dateLabel: "Sana",
     timeLabel: "Soat",

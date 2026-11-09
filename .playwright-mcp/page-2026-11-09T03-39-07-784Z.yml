@@ -1,0 +1,10 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: Maxsus taklifnoma ✨
+        - paragraph [ref=e10]: Senga kichik bir xabarim bor...
+      - button "Xatni ochish" [ref=e11] [cursor=pointer]:
+        - generic [ref=e16]: Faqat sen uchun
+      - button "Xatni ochish" [ref=e30] [cursor=pointer]
+  - alert [ref=e35]

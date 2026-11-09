@@ -99,7 +99,7 @@ function ChoiceCard({
         whileTap={{ scale: 0.96 }}
         animate={{ scale: checked ? 1.02 : 1 }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
-        className="relative flex h-full min-h-[5.5rem] flex-col items-start justify-between gap-2 rounded-2xl border border-white/85 bg-white/55 p-3.5 text-left shadow-xs backdrop-blur-md transition-all group-hover:bg-white/80 group-hover:border-rose-soft/40 peer-checked:border-rose/50 peer-checked:bg-gradient-to-br peer-checked:from-blush-50 peer-checked:to-white peer-checked:shadow-petal-sm peer-focus-visible:ring-4 peer-focus-visible:ring-rose-soft/45"
+        className="relative flex h-full min-h-[5.5rem] flex-col items-start justify-between gap-2 rounded-2xl border border-white/85 bg-white/60 p-3 text-left shadow-xs transition-all group-hover:bg-white/80 min-[400px]:p-3.5 group-hover:border-rose-soft/40 peer-checked:border-rose/50 peer-checked:bg-gradient-to-br peer-checked:from-blush-50 peer-checked:to-white peer-checked:shadow-petal-sm peer-focus-visible:ring-4 peer-focus-visible:ring-rose-soft/45"
       >
         <span
           className="flex size-9 sm:size-10 items-center justify-center rounded-xl bg-blush-100/70 text-2xl leading-none transition-transform group-hover:scale-105"
@@ -160,7 +160,11 @@ export function DatePlanForm({ config, onSubmit }: DatePlanFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-7">
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      className="flex flex-col gap-6 sm:gap-7"
+    >
       <fieldset>
         <legend className="contents">
           <SectionTitle icon={<MapPin className="size-[1.1rem]" />}>
@@ -240,7 +244,7 @@ export function DatePlanForm({ config, onSubmit }: DatePlanFormProps) {
         </AnimatePresence>
       </fieldset>
 
-      <div className="grid gap-7 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] sm:gap-5">
+      <div className="grid gap-6 sm:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] sm:gap-5">
         <div>
           <label htmlFor={ids.date} className="block">
             <SectionTitle icon={<CalendarHeart className="size-[1.1rem]" />}>
@@ -290,12 +294,8 @@ export function DatePlanForm({ config, onSubmit }: DatePlanFormProps) {
                   />
                   <motion.span
                     whileTap={{ scale: 0.94 }}
-                    className="inline-flex min-h-10 items-center gap-1.5 rounded-full border border-white/80 bg-white/60 px-4 py-1.5 text-sm font-medium text-ink tabular-nums shadow-xs backdrop-blur-md transition-all hover:bg-white hover:border-rose-soft/50 peer-checked:border-rose peer-checked:bg-gradient-to-r peer-checked:from-rose peer-checked:to-rose-deep peer-checked:text-cream peer-checked:shadow-petal-rose peer-focus-visible:ring-4 peer-focus-visible:ring-rose-soft/45"
+                    className="inline-flex min-h-11 items-center rounded-full border border-white/80 bg-white/60 px-4 py-1.5 text-sm font-medium text-ink tabular-nums shadow-xs transition-all hover:bg-white hover:border-rose-soft/50 peer-checked:border-rose peer-checked:bg-gradient-to-r peer-checked:from-rose peer-checked:to-rose-deep peer-checked:text-cream peer-checked:shadow-petal-rose peer-focus-visible:ring-4 peer-focus-visible:ring-rose-soft/45"
                   >
-                    <Clock
-                      className="size-3.5 opacity-60 peer-checked:opacity-100"
-                      aria-hidden="true"
-                    />
                     {slot}
                   </motion.span>
                 </label>
@@ -325,7 +325,7 @@ export function DatePlanForm({ config, onSubmit }: DatePlanFormProps) {
                 onChange={(event) => form.setTime(event.target.value)}
                 aria-invalid={Boolean(errors.time)}
                 aria-describedby={errors.time ? ids.timeError : undefined}
-                className={`${fieldClass} date-field max-w-[9.5rem] py-2 pl-9 pr-3 text-sm font-medium tabular-nums`}
+                className={`${fieldClass} date-field max-w-[9.5rem] py-2 pl-9 pr-3 font-medium tabular-nums`}
               />
             </div>
           </div>

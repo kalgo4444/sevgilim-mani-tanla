@@ -12,8 +12,6 @@ import {
   toTimeString,
 } from "@/shared/lib";
 
-export type DatePlanField = "location" | "date" | "time";
-
 export interface DatePlanErrors {
   location?: string;
   date?: string;
